@@ -25,7 +25,7 @@ export async function calculateNetBalance(req: Request, res: Response) {
         return acc + entry.amount;
       }
     }, 0);
-    res.status(200).json({ NetBalance: netBalance });
+    res.status(200).json({ NetBalance: netBalance.toFixed(2) });
   } catch (e: any) {
     res
       .status(500)
@@ -44,7 +44,11 @@ export async function getAllEntries(req: Request, res: Response) {
       }
     }, 0);
 
-    res.status(200).json({ response: response, netBalance: netBalance });
+    //round off a float number to 2 numbers after decimals
+
+    res
+      .status(200)
+      .json({ response: response, netBalance: netBalance.toFixed(2) });
   } catch (e: any) {
     res.status(500).json({ msg: "couldn't fetch all Entry : " + e.message });
   }
