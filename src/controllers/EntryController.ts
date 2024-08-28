@@ -36,8 +36,15 @@ export async function calculateNetBalance(req: Request, res: Response) {
 export async function getAllEntries(req: Request, res: Response) {
   try {
     const response = await prisma.entry.findMany();
-    console.log(response);
-    res.status(200).json({ response: response });
+    const netBalance = response.reduce((acc, entry) => {
+      if (entry.type === "EXPENSE") {
+        return acc - entry.amount;
+      } else {
+        return acc + entry.amount;
+      }
+    }, 0);
+
+    res.status(200).json({ response: response, netBalance: netBalance });
   } catch (e: any) {
     res.status(500).json({ msg: "couldn't fetch all Entry : " + e.message });
   }
