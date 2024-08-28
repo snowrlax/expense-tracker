@@ -25,7 +25,7 @@ export async function calculateNetBalance(req: Request, res: Response) {
         return acc + entry.amount;
       }
     }, 0);
-    res.status(200).json({ "NetBalance : ": netBalance });
+    res.status(200).json({ NetBalance: netBalance });
   } catch (e: any) {
     res
       .status(500)
